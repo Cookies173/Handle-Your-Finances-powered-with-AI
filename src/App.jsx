@@ -1,20 +1,26 @@
-import './App.css'
+import React from "react";
+import {BrowserRouter as Router, Routes, Route} from "react-router-dom";
+import './App.css';
+import ProtectedRoutes from "./components/routes/Authentication/ProtectedRoutes.jsx";
+import Home from "./components/routes/Home/Home.jsx"
+import Login from "./components/routes/Authentication/Login.jsx";
+import Register from "./components/routes/Authentication/Register.jsx";
+import Dashboard from "./components/routes/Dashboard/Dashboard.jsx";
 
-function App() {
-
+function App(){
   return (
-    <>
-      <h1 className="text-3xl font-bold underline">
-        Hello world!
-      </h1>
-      <main className="min-h-screen"> </main>
-      <footer className="bg-gray-300 py-10">
-        <div className="container mx-auto px-4 text-center text-black">
-          <p>© Cookies173</p>
-        </div>
-      </footer>
-    </>
+    <Router>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+
+        <Route element={<ProtectedRoutes />}>
+          <Route path="/dashboard" element={<Dashboard />} />
+        </Route>
+      </Routes>
+    </Router>
   )
 }
 
-export default App
+export default App;
