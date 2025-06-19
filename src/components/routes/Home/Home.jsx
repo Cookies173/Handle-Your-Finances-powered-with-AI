@@ -1,10 +1,12 @@
 import React from "react";
 import Header from "../Header/Header.jsx";
+import Lander from "./Lander.jsx";
 
 function Home(){
     return (
         <div>
             <Header />
+            <Lander />
             <h1 className="text-3xl font-bold underline my-25">
                 Hello world!
             </h1>

@@ -12,11 +12,7 @@ function Profile(){
                 </Link>
             </SignedOut>
             <SignedIn>
-                <UserButton appearance={{
-                    elements:{
-                        avatarBox : "w-24 h-24",
-                    },
-                }} />
+                <UserButton />
             </SignedIn>
         </div>
     );
