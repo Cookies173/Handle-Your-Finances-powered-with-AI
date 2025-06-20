@@ -4,6 +4,8 @@ import Lander from "./Lander.jsx";
 import Features from "./Features.jsx";
 import Howitworks from "./Howitworks.jsx";
 import Stats from "./Stats.jsx";
+import Testimonials from "./Testimonials.jsx";
+import Action from "./Action.jsx";
 
 function Home(){
     return (
@@ -13,6 +15,8 @@ function Home(){
             <Features />
             <Howitworks />
             <Stats />
+            <Testimonials />
+            <Action />
 
             <footer className="bg-gray-300 py-10">
                 <div className="container mx-auto px-125 text-center text-black">
