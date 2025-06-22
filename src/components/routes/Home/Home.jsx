@@ -6,6 +6,7 @@ import Howitworks from "./Howitworks.jsx";
 import Stats from "./Stats.jsx";
 import Testimonials from "./Testimonials.jsx";
 import Action from "./Action.jsx";
+import Footer from "../Header/Footer.jsx";
 
 function Home(){
     return (
@@ -17,12 +18,7 @@ function Home(){
             <Stats />
             <Testimonials />
             <Action />
-
-            <footer className="bg-gray-300 py-10">
-                <div className="container mx-auto px-125 text-center text-black">
-                <p>© Cookies173</p>
-                </div>
-            </footer>
+            <Footer />
         </div>
     );
 }

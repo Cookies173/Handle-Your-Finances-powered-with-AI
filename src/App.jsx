@@ -6,6 +6,7 @@ import Home from "./components/routes/Home/Home.jsx"
 import Login from "./components/routes/Authentication/Login.jsx";
 import Register from "./components/routes/Authentication/Register.jsx";
 import Dashboard from "./components/routes/Dashboard/Dashboard.jsx";
+import PageNotFound from "./components/routes/Authentication/PageNotFound.jsx";
 
 function App(){
   return (
@@ -14,6 +15,7 @@ function App(){
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
+        <Route path="*" element={<PageNotFound />} />
 
         <Route element={<ProtectedRoutes />}>
           <Route path="/dashboard" element={<Dashboard />} />
