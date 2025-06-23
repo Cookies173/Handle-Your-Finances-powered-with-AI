@@ -9,6 +9,8 @@ import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Switch } from "@/components/ui/switch";
 import { Button } from "@/components/ui/button";
+import axios from "axios";
+import { useAuth } from "@clerk/clerk-react";
 
 function CreateAccount(){
 
@@ -22,8 +24,22 @@ function CreateAccount(){
         },
     });
 
+    const { getToken } = useAuth();
+
     const onSubmit = async (data) => {
         console.log(data);
+        try{
+            const token = await getToken();
+            const res = await axios.post("https://penny-pilot-server.vercel.app/dash/new", data, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            });
+            console.log("Created:", res.data);
+        }
+        catch(err){
+            console.error("Failed to create account:", err);
+        }
     };
 
     return(

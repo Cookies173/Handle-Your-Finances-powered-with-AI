@@ -35,7 +35,7 @@ function Lander(){
                     <Link to="/dashboard">
                         <Button size="lg" className="px-8">Get Started</Button>
                     </Link>
-                    <Link to="https://www.youtube.com/watch?v=JgDNFQ2RaLQ">
+                    <Link to="https://www.youtube.com/watch?v=JgDNFQ2RaLQ" target="_blank">
                         <Button size="lg" variant="outline" className="px-8">Watch Demo</Button>
                     </Link>
                 </div>

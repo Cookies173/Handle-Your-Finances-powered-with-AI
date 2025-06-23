@@ -20,9 +20,8 @@ function Profile(){
                         headers: {
                             Authorization: `Bearer ${token}`,
                         },
-                    }
-                );
-                console.log("User synced:", res.data);
+                    });
+                    // console.log("User synced:", res.data);
                 }
                 catch(err){
                     console.error("Failed to sync user:", err);
