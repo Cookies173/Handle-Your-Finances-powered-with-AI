@@ -1,7 +1,7 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Drawer, DrawerContent, DrawerHeader, DrawerTitle, DrawerTrigger, DrawerClose } from "@/components/ui/drawer";
 import { Card, CardContent } from "@/components/ui/card";
-import { Plus } from "lucide-react";
+import { Loader2, Plus } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod/src/zod.js";
 import { accountSchema } from "../../../lib/schema.js";
@@ -11,8 +11,13 @@ import { Switch } from "@/components/ui/switch";
 import { Button } from "@/components/ui/button";
 import axios from "axios";
 import { useAuth } from "@clerk/clerk-react";
+import { toast } from "sonner";
 
 function CreateAccount(){
+    const [open, setOpen] = useState(false);
+    const [tdata, setTdata] = useState(undefined);
+    const [loading, setLoading] = useState(null);
+    const [error, setError] = useState(null);
 
     const { register, handleSubmit, formState:{errors}, setValue, watch, reset } = useForm({
         resolver:zodResolver(accountSchema),
@@ -24,10 +29,25 @@ function CreateAccount(){
         },
     });
 
+    useEffect(() => {
+        if(tdata && !loading){
+            toast.success("Account Created successfully");
+            reset();
+            setOpen(false);
+        }
+    }, [loading, tdata]);
+
+    useEffect(() => {
+        if(error){
+            toast.error(error.message || "Failed to create Account");
+        }
+    }, [error]);
+
     const { getToken } = useAuth();
 
     const onSubmit = async (data) => {
-        console.log(data);
+        setLoading(true);
+        setError(null);
         try{
             const token = await getToken();
             const res = await axios.post("https://penny-pilot-server.vercel.app/dash/new", data, {
@@ -35,25 +55,31 @@ function CreateAccount(){
                     Authorization: `Bearer ${token}`,
                 },
             });
-            console.log("Created:", res.data);
+            setTdata(res);
+            setError(null);
         }
         catch(err){
             console.error("Failed to create account:", err);
+            setError(err);
+            toast.error(err.message);
+        }
+        finally{
+            setLoading(false);
         }
     };
 
     return(
         <div>
-            <Drawer>
-                <DrawerTrigger>
-                    <Card className="min-w-[300px] hover:shadow-md transition-shadow cursor-pointer border-dashed">
+            <Drawer open={open} onOpenChange={setOpen}>
+                <DrawerTrigger asChild>
+                    <Card className="h-46 hover:shadow-md transition-shadow cursor-pointer border-dashed">
                         <CardContent className="flex flex-col items-center justify-center text-muted-foreground h-full pt-5">
                             <Plus className="h-10 w-10 mb-2"/>
                             <p className="text-sm font-medium">Add New Account</p>
                         </CardContent>
                     </Card>
                 </DrawerTrigger>
-                <DrawerContent>
+                <DrawerContent aria-describedby={undefined}>
                     <DrawerHeader>
                         <DrawerTitle>Create New Account</DrawerTitle>
                     </DrawerHeader>
@@ -97,10 +123,18 @@ function CreateAccount(){
                             </div>
                             
                             <div className="flex gap-4 pb-10">
-                                <DrawerClose>
+                                <DrawerClose asChild>
                                     <Button type="button" variant="outline" className="flex-1">Cancel</Button>
                                 </DrawerClose>
-                                <Button type="submit" className="flex-1">Create Account</Button>
+                                <Button type="submit" className="flex-1" disabled={loading}>
+                                    {(loading) ? (
+                                    <div className="flex items-center">
+                                        <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                                        <p>Creating....</p>
+                                    </div>) : (
+                                        <p>Create Account</p>
+                                    )}
+                                </Button>
                             </div>
                         </form>
                     </div>

@@ -3,7 +3,7 @@ import AccountsGrid from "./AccountsGrid.jsx";
 
 function LoadPage(){
     return(
-        <div className="">
+        <div>
             <AccountsGrid />
         </div>
     );
