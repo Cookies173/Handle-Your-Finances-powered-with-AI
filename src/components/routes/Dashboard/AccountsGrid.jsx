@@ -39,9 +39,9 @@ function AccountsGrid(){
 
     return(
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3 px-4">
-            <CreateAccount onUpdate={getAccounts}/>
+            <CreateAccount />
             {accounts!=undefined && accounts.map((account) => {
-                return <AccountCard key={account.id} account={account} onUpdate={getAccounts}/>
+                return <AccountCard key={account.id} account={account} onRefresh={getAccounts} />
             })}
         </div>
     );

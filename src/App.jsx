@@ -7,6 +7,7 @@ import Login from "./components/routes/Authentication/Login.jsx";
 import Register from "./components/routes/Authentication/Register.jsx";
 import Dashboard from "./components/routes/Dashboard/Dashboard.jsx";
 import PageNotFound from "./components/routes/Authentication/PageNotFound.jsx";
+import Account from "./components/routes/Account/Account.jsx";
 
 function App(){
   return (
@@ -19,7 +20,7 @@ function App(){
 
         <Route element={<ProtectedRoutes />}>
           <Route path="/dashboard" element={<Dashboard />} />
-          {/* <Route path="/account" element={} /> */}
+          <Route path="/account/:id" element={<Account />} />
         </Route>
       </Routes>
     </Router>
