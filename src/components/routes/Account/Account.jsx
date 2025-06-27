@@ -1,15 +1,17 @@
 import { useAuth } from "@clerk/clerk-react";
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React, { Suspense, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import Info from "./Info.jsx";
 import Header from "../Header/Header.jsx";
 import Footer from "../Header/Footer.jsx";
 import TransactionTable from "./TransactionTable.jsx";
+import { BarLoader } from "react-spinner";
 
 function Account(){
 
     const [account, setAccount] = useState(undefined);
+    const [transactions, setTransactions] = useState(undefined);
 
     const { id } = useParams();
 
@@ -21,8 +23,6 @@ function Account(){
         getAccountDetail();
     }, []);
 
-    // console.log(account);
-
     const getAccountDetail = async() => {
         try{
             const token = await getToken();
@@ -33,10 +33,11 @@ function Account(){
                 },
             });
             if(!res.data.accounts[0]){
-                navigate("*");
+                navigate("/*");
                 return;
             }
             setAccount(res.data.accounts[0]);
+            setTransactions(res.data.transactions);
         }
         catch(err){
             console.error("Failed to fetch accounts:", err.message);
@@ -45,11 +46,13 @@ function Account(){
     
     return (
         <div>
-            {account!=undefined && (
+            {account!=undefined && transactions!=undefined && (
                 <div>
                     <Header />
-                    <Info account={account}/>
-                    <TransactionTable />
+                    <Info account={account} transactions={transactions}/>
+                    <Suspense fallback={<BarLoader className="mt-4" width={"100%"} color="#446B5C" />}>
+                        <TransactionTable transactions={transactions} />
+                    </Suspense>
                     <Footer />
                 </div>
             )}

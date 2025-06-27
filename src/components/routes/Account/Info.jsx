@@ -1,6 +1,6 @@
 import React from "react";
 
-function Info({ account }){
+function Info({ account, transactions }){
     return (
         <div>
             <div className="space-y-8 px-5 flex gap-4 items-end justify-between pt-20">
@@ -10,7 +10,7 @@ function Info({ account }){
                 </div>
                 <div className="text-right pb-2">
                     <div className="text-xl sm:text-2xl font-bold">₹{parseFloat(account.balance).toFixed(2)}</div>
-                    <p className="text-sm text-muted-foreground">Count Transactions</p>
+                    <p className="text-sm text-muted-foreground">{transactions.length} Transactions</p>
                 </div>
             </div>
         </div>

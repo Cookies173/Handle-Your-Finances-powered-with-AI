@@ -1,5 +1,5 @@
 import React from "react";
-import { featuresData } from "./data.jsx";
+import { featuresData } from "../../../lib/data.jsx";
 import { Card, CardContent } from "@/components/ui/card"
 
 function Features(){

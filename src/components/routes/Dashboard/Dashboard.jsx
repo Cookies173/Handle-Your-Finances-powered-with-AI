@@ -11,7 +11,7 @@ function Dashboard(){
             <Header />
             <div className="px-4 py-20">
                 <h1 className="text-6xl font-bold gradient-title mb-4">Dashboard</h1>
-                <Suspense fallback={<BarLoader className="mt-4" widht={"100%"} color="#446B5C" />}>
+                <Suspense fallback={<BarLoader className="mt-4" width={"100%"} color="#446B5C" />}>
                     <LoadPage />
                 </Suspense>
             </div>

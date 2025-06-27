@@ -1,5 +1,5 @@
 import React from "react";
-import { testimonialsData } from "./data.jsx";
+import { testimonialsData } from "../../../lib/data.jsx";
 import { Card, CardContent } from "@/components/ui/card"
 
 function Testimonials(){

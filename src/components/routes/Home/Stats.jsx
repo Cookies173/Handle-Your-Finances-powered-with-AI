@@ -1,5 +1,5 @@
 import React from "react";
-import { statsData } from "./data.jsx";
+import { statsData } from "../../../lib/data.jsx";
 
 function Stats(){
     return(

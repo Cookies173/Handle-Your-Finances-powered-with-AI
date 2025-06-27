@@ -1,5 +1,5 @@
 import React from "react";
-import { howItWorksData } from "./data.jsx";
+import { howItWorksData } from "../../../lib/data.jsx";
 
 function Howitworks(){
     return(
