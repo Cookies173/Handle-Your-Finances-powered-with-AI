@@ -12,19 +12,19 @@ function AccountsGrid(){
 
     useEffect(() => {
         getAccounts();
-        const handleClick = () => {
-            getAccounts();
-        };
-        document.addEventListener("click", handleClick);
-        return () => {
-            document.removeEventListener("click", handleClick);
-        };
+        // const handleClick = () => {
+        //     getAccounts();
+        // };
+        // document.addEventListener("click", handleClick);
+        // return () => {
+        //     document.removeEventListener("click", handleClick);
+        // };
     }, []);
 
     const getAccounts = async () => {
         try{
             const token = await getToken();
-
+            // console.log(token);
             const res = await axios.get("https://penny-pilot-server.vercel.app/dash/acc", {
                 headers: {
                 Authorization: `Bearer ${token}`,
