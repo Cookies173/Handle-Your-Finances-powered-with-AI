@@ -10,6 +10,10 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel,
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { useAuth } from "@clerk/clerk-react";
+import axios from "axios";
+import { toast } from "sonner";
+import { BarLoader } from "react-spinners";
 
 const RECURRING_INTERVALS = {
     daily:"Daily",
@@ -18,9 +22,9 @@ const RECURRING_INTERVALS = {
     yearly:"Yearly",
 };
 
-function TransactionTable({ transactions }){
+function TransactionTable({ transactions, onRefresh }){
     
-    // const [filteredSortedTransactions, setFilterSortedTransactions] = useState(undefined);
+    const [localTransactions, setLocalTransactions] = useState(transactions);
     const [selectTransactions, setSelectTransactions] = useState([]);
     const [sortConfig, setSortConfig] = useState({
         field : "date",
@@ -29,16 +33,98 @@ function TransactionTable({ transactions }){
     const [searchTerm, setSearchTerm] = useState("");
     const [typeFilter, setTypeFilter] = useState("");
     const [recurringFilter, setRecurringFilter] = useState("");
+    const [tdata, setTdata] = useState(undefined);
+    const [loading, setLoading] = useState(null);
+    const [error, setError] = useState(null);
+
+    useEffect(() => {
+        setLocalTransactions(transactions);
+    }, [transactions]);
 
     const filteredSortedTransactions = useMemo(() => {
-        let result = [...transactions];
+        let result = [...localTransactions];
+
+        // Filters
+        if(searchTerm){
+            const searchLower = searchTerm.toLowerCase();
+            result = result.filter((transaction) => transaction.description?.toLowerCase().includes(searchLower));
+        }
+
+        if(recurringFilter){
+            result = result.filter((transaction) => {
+                if(recurringFilter === "recurring") return transaction.isrecurring;
+                else return !transaction.isrecurring;
+            });
+        }
+
+        if(typeFilter){
+            result = result.filter((transaction) => transaction.type === typeFilter);
+        }
+
+        // Sorting
+        result.sort((a, b) => {
+            let comparison=0;
+
+            switch(sortConfig.field){
+                case "date":
+                    comparison = new Date(a.date) - new Date(b.date);
+                    break;
+                case "amount":
+                    comparison = a.amount - b.amount;
+                    break;
+                case "category":
+                    comparison = (a.category || "").localeCompare(b.category || "");
+                    break;
+                default:
+                    comparison = 0;
+            };
+
+            return (sortConfig.direction === "asc" ? comparison : -comparison);
+        });
 
         return result;
-    }, [transactions, sortConfig, searchTerm, typeFilter, recurringFilter]);
+    }, [localTransactions, sortConfig, searchTerm, typeFilter, recurringFilter]);
 
-    // useEffect(() => {
-    //     setFilterSortedTransactions(transactions);
-    // }, []);
+    useEffect(() => {
+        if(tdata && !loading){
+            setTimeout(() => {
+                toast.success("Transactions Deleted Successfully");
+            }, 1000);
+        }
+    }, [loading, tdata]);
+
+    useEffect(() => {
+        if(error){
+            toast.error(error.message || "Failed to Delete Transactions");
+        }
+    }, [error]);
+
+    const { getToken } = useAuth();
+
+
+    const bulkDeleteTransactions = async () => {
+        setLoading(true);
+        setError(null);
+        try{
+            const token = await getToken();
+            const res = await axios.post("http://localhost:3000/acnt/bdl", {transactionIds : selectTransactions}, {
+                headers: {
+                Authorization: `Bearer ${token}`,
+                },
+            });
+            setTdata(res);
+            setError(null);
+            if(onRefresh) onRefresh();
+        }
+        catch(err){
+            console.error("Failed to bulk delete transactions:", err.message);
+            setError(err);
+            toast.error(err.message);
+        }
+        finally{
+            setLoading(false);
+        }
+    };
 
     const handleSort = (field) => {
         setSortConfig(current => ({
@@ -62,7 +148,11 @@ function TransactionTable({ transactions }){
     };
 
     const handleBulkDelete = () => {
-
+        if(!window.confirm(`Are you sure you want to delete ${selectTransactions.length} transactions`)) return;
+        bulkDeleteTransactions();
+        const deletedIds = new Set(selectTransactions);
+        setLocalTransactions(prev => prev.filter(t => !deletedIds.has(t.id)));
+        setSelectTransactions([]);
     };
 
     const handleClearFilter = () => {
@@ -76,13 +166,37 @@ function TransactionTable({ transactions }){
 
     };
 
-    const handleDelete = () => {
+    const handleDelete = async (id) => {
+        if (!window.confirm("Are you sure you want to delete this transaction?")) return;
+        setLoading(true);
+        setError(null);
+        try {
+            const token = await getToken();
+            const res = await axios.post("http://localhost:3000/acnt/bdl", { transactionIds: id },{
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            });
+            setTdata(res);
+            setError(null);
+            setLocalTransactions(prev => prev.filter(t => !id.includes(t.id)));
+            if(onRefresh) onRefresh();
 
+        }
+        catch(err){
+            console.error("Delete failed:", err.message);
+            setError(err);
+            toast.error("Failed to delete transaction");
+        }
+        finally{
+            setLoading(false);
+        }
     };
 
     return (
         <div>
             <div className="space-y-4 px-5">
+                {loading && (<BarLoader className="mt-4" width={"100%"} color="#446B5C" />)}
                 <div className="flex flex-col sm:flex-row gap-4">
                     <div className="relative flex-1">
                         <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
@@ -138,7 +252,7 @@ function TransactionTable({ transactions }){
                                 <TableHead className="w-[50px]">
                                     <Checkbox 
                                         onCheckedChange={() => handleSelectAll()}
-                                        checked={(filteredSortedTransactions!=undefined) && (selectTransactions.length === filteredSortedTransactions.length)} />
+                                        checked={(filteredSortedTransactions.length>0) && (selectTransactions.length === filteredSortedTransactions.length)} />
                                 </TableHead>
                                 <TableHead className="cursor-pointer" onClick={()=>handleSort("date")}>
                                     <div className="flex items-center">
@@ -176,7 +290,7 @@ function TransactionTable({ transactions }){
                             </TableRow>
                         </TableHeader>
                         <TableBody>
-                            {(filteredSortedTransactions == undefined) ? (   
+                            {(filteredSortedTransactions.length === 0) ? (   
                                 <TableRow>
                                     <TableCell colSpan={7} className="text-center text-muted-foreground">No Transactions Found</TableCell>
                                 </TableRow>) : (
@@ -232,7 +346,7 @@ function TransactionTable({ transactions }){
                                                     <Button variant="ghost" className="h-8 w-8 p-0"><MoreHorizontal className="h-4 w-4" /></Button>
                                                 </DropdownMenuTrigger>
                                                 <DropdownMenuContent>
-                                                    <DropdownMenuLabel onClick={()=>handleEdit()}>Edit</DropdownMenuLabel>
+                                                    <DropdownMenuItem onClick={()=>handleEdit()}>Edit</DropdownMenuItem>
                                                     <DropdownMenuSeparator />
                                                     <DropdownMenuItem onClick={()=>handleDelete([transaction.id])} className="text-destructive">Delete</DropdownMenuItem>
                                                 </DropdownMenuContent>

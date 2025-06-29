@@ -2,8 +2,8 @@ import React, { Suspense } from "react";
 import Header from "../Header/Header.jsx";
 import Footer from "../Header/Footer.jsx";
 import LoadPage from "./LoadPage.jsx";
-import { BarLoader } from "react-spinner";
-import { Toaster } from "@/components/ui/sonner"
+import { BarLoader } from "react-spinners";
+import { Toaster } from "@/components/ui/sonner";
 
 function Dashboard(){
     return(

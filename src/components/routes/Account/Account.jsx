@@ -6,7 +6,8 @@ import Info from "./Info.jsx";
 import Header from "../Header/Header.jsx";
 import Footer from "../Header/Footer.jsx";
 import TransactionTable from "./TransactionTable.jsx";
-import { BarLoader } from "react-spinner";
+import { BarLoader } from "react-spinners";
+import { Toaster } from "@/components/ui/sonner";
 
 function Account(){
 
@@ -51,8 +52,9 @@ function Account(){
                     <Header />
                     <Info account={account} transactions={transactions}/>
                     <Suspense fallback={<BarLoader className="mt-4" width={"100%"} color="#446B5C" />}>
-                        <TransactionTable transactions={transactions} />
+                        <TransactionTable transactions={transactions} onRefresh={getAccountDetail} />
                     </Suspense>
+                    <Toaster richColors/>
                     <Footer />
                 </div>
             )}
