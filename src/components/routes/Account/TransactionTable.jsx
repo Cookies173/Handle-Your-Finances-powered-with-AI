@@ -14,6 +14,7 @@ import { useAuth } from "@clerk/clerk-react";
 import axios from "axios";
 import { toast } from "sonner";
 import { BarLoader } from "react-spinners";
+import { Pagination, PaginationContent, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from "@/components/ui/pagination";
 
 const RECURRING_INTERVALS = {
     daily:"Daily",
@@ -36,6 +37,11 @@ function TransactionTable({ transactions, onRefresh }){
     const [tdata, setTdata] = useState(undefined);
     const [loading, setLoading] = useState(null);
     const [error, setError] = useState(null);
+    const [page, setPage] = useState(1);
+    const [totalPages, setTotalPages] = useState(undefined);
+    const [currPageTransactions, setCurrPageTransactions] = useState([]);
+
+    const entriesPerPage = 20;
 
     useEffect(() => {
         setLocalTransactions(transactions);
@@ -86,6 +92,11 @@ function TransactionTable({ transactions, onRefresh }){
     }, [localTransactions, sortConfig, searchTerm, typeFilter, recurringFilter]);
 
     useEffect(() => {
+        setTotalPages(Math.max(1, Math.ceil(filteredSortedTransactions.length/entriesPerPage)));
+        setCurrPageTransactions(filteredSortedTransactions.slice((page-1)*entriesPerPage, page*entriesPerPage));
+    }, [filteredSortedTransactions, page]);
+
+    useEffect(() => {
         if(tdata && !loading){
             setTimeout(() => {
                 toast.success("Transactions Deleted Successfully");
@@ -107,7 +118,8 @@ function TransactionTable({ transactions, onRefresh }){
         setError(null);
         try{
             const token = await getToken();
-            const res = await axios.post("http://localhost:3000/acnt/bdl", {transactionIds : selectTransactions}, {
+            const res = await axios.post("https://penny-pilot-server.vercel.app/acnt/bdl", 
+                {transactionIds : selectTransactions}, {
                 headers: {
                 Authorization: `Bearer ${token}`,
                 },
@@ -141,9 +153,9 @@ function TransactionTable({ transactions, onRefresh }){
     };
 
     const handleSelectAll = () => {
-        setSelectTransactions((current) => current.length === filteredSortedTransactions.length
+        setSelectTransactions((current) => current.length === currPageTransactions.length
             ? []
-            : filteredSortedTransactions.map((t) => t.id)
+            : currPageTransactions.map((t) => t.id)
         );
     };
 
@@ -172,7 +184,7 @@ function TransactionTable({ transactions, onRefresh }){
         setError(null);
         try {
             const token = await getToken();
-            const res = await axios.post("http://localhost:3000/acnt/bdl", { transactionIds: id },{
+            const res = await axios.post("https://penny-pilot-server.vercel.app/acnt/bdl", { transactionIds: id },{
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },
@@ -252,7 +264,7 @@ function TransactionTable({ transactions, onRefresh }){
                                 <TableHead className="w-[50px]">
                                     <Checkbox 
                                         onCheckedChange={() => handleSelectAll()}
-                                        checked={(filteredSortedTransactions.length>0) && (selectTransactions.length === filteredSortedTransactions.length)} />
+                                        checked={(currPageTransactions.length>0) && (selectTransactions.length === currPageTransactions.length)} />
                                 </TableHead>
                                 <TableHead className="cursor-pointer" onClick={()=>handleSort("date")}>
                                     <div className="flex items-center">
@@ -290,11 +302,11 @@ function TransactionTable({ transactions, onRefresh }){
                             </TableRow>
                         </TableHeader>
                         <TableBody>
-                            {(filteredSortedTransactions.length === 0) ? (   
+                            {(currPageTransactions.length === 0) ? (   
                                 <TableRow>
                                     <TableCell colSpan={7} className="text-center text-muted-foreground">No Transactions Found</TableCell>
                                 </TableRow>) : (
-                                filteredSortedTransactions.map((transaction) => (
+                                currPageTransactions.map((transaction) => (
                                     <TableRow key={transaction.id}>
                                         <TableCell>
                                             <Checkbox 
@@ -357,6 +369,24 @@ function TransactionTable({ transactions, onRefresh }){
                             )}
                         </TableBody>
                     </Table>
+                </div>
+
+                <div>
+                    <Pagination>
+                        <PaginationContent>
+                            <PaginationItem>
+                                <PaginationPrevious href="#" onClick={() => setPage((p) => Math.max(1, p-1))} />
+                            </PaginationItem>
+                            {(totalPages!=undefined) && [...Array(totalPages)].map((_, i) => (
+                                <PaginationItem key={i}>
+                                    <PaginationLink href="#" isActive={page === i+1} onClick={() => setPage(i+1)} >{i+1}</PaginationLink>
+                                </PaginationItem>
+                            ))}
+                            <PaginationItem>
+                                <PaginationNext href="#" onClick={() => setPage((p) => Math.min(totalPages, p+1))} />
+                            </PaginationItem>
+                        </PaginationContent>
+                    </Pagination>
                 </div>
             </div>
         </div>
