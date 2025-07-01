@@ -8,6 +8,7 @@ import Register from "./components/routes/Authentication/Register.jsx";
 import Dashboard from "./components/routes/Dashboard/Dashboard.jsx";
 import PageNotFound from "./components/routes/Authentication/PageNotFound.jsx";
 import Account from "./components/routes/Account/Account.jsx";
+import AddTransaction from "./components/routes/AddTransaction/AddTransaction.jsx";
 
 function App(){
   return (
@@ -21,6 +22,7 @@ function App(){
         <Route element={<ProtectedRoutes />}>
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/account/:id" element={<Account />} />
+          <Route path="transaction/create" element={<AddTransaction />} />
         </Route>
       </Routes>
     </Router>

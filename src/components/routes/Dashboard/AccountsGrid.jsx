@@ -4,7 +4,7 @@ import axios from "axios";
 import { useAuth } from "@clerk/clerk-react";
 import AccountCard from "./AccountCard.jsx";
 
-function AccountsGrid(){
+function AccountsGrid({ onNewDefault }){
 
     const [accounts, setAccounts] = useState(undefined);
 
@@ -12,25 +12,18 @@ function AccountsGrid(){
 
     useEffect(() => {
         getAccounts();
-        // const handleClick = () => {
-        //     getAccounts();
-        // };
-        // document.addEventListener("click", handleClick);
-        // return () => {
-        //     document.removeEventListener("click", handleClick);
-        // };
     }, []);
 
     const getAccounts = async () => {
         try{
             const token = await getToken();
-            // console.log(token);
             const res = await axios.get("https://penny-pilot-server.vercel.app/dash/acc", {
                 headers: {
                 Authorization: `Bearer ${token}`,
                 },
             });
             setAccounts(res.data.accounts);
+            onNewDefault(res.data.accounts);
         }
         catch(err){
             console.error("Failed to fetch accounts:", err.message);
@@ -39,7 +32,7 @@ function AccountsGrid(){
 
     return(
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3 px-4">
-            <CreateAccount />
+            <CreateAccount onRefresh={getAccounts} />
             {accounts!=undefined && accounts.map((account) => {
                 return <AccountCard key={account.id} account={account} onRefresh={getAccounts} />
             })}

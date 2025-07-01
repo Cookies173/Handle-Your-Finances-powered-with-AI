@@ -13,7 +13,7 @@ import axios from "axios";
 import { useAuth } from "@clerk/clerk-react";
 import { toast } from "sonner";
 
-function CreateAccount(){
+function CreateAccount({ onRefresh }){
     const [open, setOpen] = useState(false);
     const [tdata, setTdata] = useState(undefined);
     const [loading, setLoading] = useState(null);
@@ -57,6 +57,7 @@ function CreateAccount(){
             });
             setTdata(res);
             setError(null);
+            if(onRefresh) onRefresh();
         }
         catch(err){
             console.error("Failed to create account:", err);

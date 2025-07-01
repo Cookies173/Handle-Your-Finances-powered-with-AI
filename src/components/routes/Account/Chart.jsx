@@ -14,7 +14,7 @@ const DATE_RANGES = {
 
 function Chart({ transactions }){
 
-    const [dateRange, setDateRange] = useState("1M"); // change to 1M
+    const [dateRange, setDateRange] = useState("1M");
 
     const filteredData = useMemo(() => {
         const range = DATE_RANGES[dateRange];
@@ -28,24 +28,26 @@ function Chart({ transactions }){
         });
 
         const grouped = filtered.reduce((acc, t) => {
-            const date = format(new Date(t.date), "MMM dd");
-
-            if(!acc[date]){
-                acc[date] = {date, income : 0, expense : 0};
+            const key = format(new Date(t.date), "yyyy-MM-dd");
+            if (!acc[key]) {
+                acc[key] = {
+                    sortDate: key,
+                    date: format(new Date(t.date), "MMM dd"),
+                    income: 0,
+                    expense: 0
+                };
             }
-            
-            if(t.type === "income"){
-                acc[date].income += parseFloat(t.amount);
-            }
-            else{
-                acc[date].expense += parseFloat(t.amount);
+            if (t.type === "income") {
+                acc[key].income += parseFloat(t.amount);
+            } else {
+                acc[key].expense += parseFloat(t.amount);
             }
 
             return acc;
         }, {});
-
+        
         return Object.values(grouped).sort((a, b) => (
-            new Date(a) - new Date(b)
+            new Date(a.sortDate) - new Date(b.sortDate)
         ));
 
     }, [transactions, dateRange]);
