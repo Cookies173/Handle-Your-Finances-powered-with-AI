@@ -7,6 +7,7 @@ import AccountCard from "./AccountCard.jsx";
 function AccountsGrid({ onNewDefault }){
 
     const [accounts, setAccounts] = useState(undefined);
+    const [open, setOpen] = useState(false);
 
     const { getToken } = useAuth();
 
@@ -32,7 +33,7 @@ function AccountsGrid({ onNewDefault }){
 
     return(
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3 px-4">
-            <CreateAccount onRefresh={getAccounts} />
+            <CreateAccount open={open} setOpen={setOpen} triggerButton={true} onRefresh={getAccounts} />
             {accounts!=undefined && accounts.map((account) => {
                 return <AccountCard key={account.id} account={account} onRefresh={getAccounts} />
             })}

@@ -13,8 +13,8 @@ import axios from "axios";
 import { useAuth } from "@clerk/clerk-react";
 import { toast } from "sonner";
 
-function CreateAccount({ onRefresh }){
-    const [open, setOpen] = useState(false);
+function CreateAccount({ open, setOpen, triggerButton, onRefresh }){
+    // const [open, setOpen] = useState(false);
     const [tdata, setTdata] = useState(undefined);
     const [loading, setLoading] = useState(null);
     const [error, setError] = useState(null);
@@ -72,14 +72,16 @@ function CreateAccount({ onRefresh }){
     return(
         <div>
             <Drawer open={open} onOpenChange={setOpen}>
-                <DrawerTrigger asChild>
-                    <Card className="h-46 hover:shadow-md transition-shadow cursor-pointer border-dashed">
-                        <CardContent className="flex flex-col items-center justify-center text-muted-foreground h-full pt-5">
-                            <Plus className="h-10 w-10 mb-2"/>
-                            <p className="text-sm font-medium">Add New Account</p>
-                        </CardContent>
-                    </Card>
-                </DrawerTrigger>
+                {triggerButton && (
+                    <DrawerTrigger asChild>
+                        <Card className="h-48 hover:shadow-md transition-shadow cursor-pointer border-dashed">
+                            <CardContent className="flex flex-col items-center justify-center text-muted-foreground h-full pt-5">
+                                <Plus className="h-10 w-10 mb-2"/>
+                                <p className="text-sm font-medium">Add New Account</p>
+                            </CardContent>
+                        </Card>
+                    </DrawerTrigger>
+                )}
                 <DrawerContent aria-describedby={undefined}>
                     <DrawerHeader>
                         <DrawerTitle>Create New Account</DrawerTitle>
