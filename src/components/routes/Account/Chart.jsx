@@ -60,7 +60,7 @@ function Chart({ transactions }){
 
 
     return (
-        <div>
+        <div className="px-5">
             <Card>
                 <CardHeader className="flex items-center justify-between space-y-0 pb-7">
                     <CardTitle className="text-base font-normal">Transactions Overview</CardTitle>

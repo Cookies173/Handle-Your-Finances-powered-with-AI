@@ -16,6 +16,7 @@ import { Calendar } from "@/components/ui/calendar";
 import { Switch } from "@/components/ui/switch";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
+import ReceiptScanner from "./ReceiptScanner.jsx";
 
 function AddTForm(){
 
@@ -99,17 +100,27 @@ function AddTForm(){
                     Authorization: `Bearer ${token}`,
                 },
             });
-            setTdata(res);
-            setError(null);
-            // if(onRefresh) onRefresh();
+            if(res.status === 200 && res.data.success){
+                setTdata(res);
+                setError(null);
+            }
         }
         catch(err){
-            console.error("Failed to add transaction:", err);
-            setError(err);
-            toast.error(err.message);
+            const message = err?.response?.data?.error || "Failed to add transaction";
+            toast.error(message);
         }
         finally{
             setLoading(false);
+        }
+    };
+
+    const handleSubmitComplete = (scannedData) => {
+        console.log(scannedData);
+        if(scannedData){
+            setValue("amount", scannedData.amount.toString());
+            setValue("date", new Date(scannedData.date));
+            if(scannedData.description) setValue("description", scannedData.description);
+            if(scannedData.category) setValue("category", scannedData.category);
         }
     };
 
@@ -117,6 +128,7 @@ function AddTForm(){
         <div>
             <CreateAccount open={createDrawerOpen} setOpen={setCreateDrawerOpen} triggerButton={false} onRefresh={getAccounts} />
             <form className="space-y-6" onSubmit={handleSubmit(onSubmit)}>
+                <ReceiptScanner onScanComplete={handleSubmitComplete} />
                 <div className="space-y-2">
                     <label className="text-sm font-medium">Type</label>
                     <Select onValueChange={(value) => setValue("type", value)} defaultValues={type}>
@@ -151,7 +163,6 @@ function AddTForm(){
                                 }
                                 setValue("accountId", value);
                             }}
-                            // defaultValues={getValues("accountId")} // Notworking rn
                             defaultValues={accountId}
                         >
                             <SelectTrigger className="w-[350px]">

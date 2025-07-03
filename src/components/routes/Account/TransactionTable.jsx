@@ -207,7 +207,7 @@ function TransactionTable({ transactions, onRefresh }){
 
     return (
         <div>
-            <div className="space-y-4 px-5">
+            <div className="space-y-4 px-5 pt-5">
                 {loading && (<BarLoader className="mt-4" width={"100%"} color="#446B5C" />)}
                 <div className="flex flex-col sm:flex-row gap-4">
                     <div className="relative flex-1">
