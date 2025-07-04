@@ -48,7 +48,6 @@ function ReceiptScanner({ onScanComplete }){
                     Authorization: `Bearer ${token}`,
                 },
             });
-            console.log(res);
             setTdata(res.data);
             setError(null);
         }

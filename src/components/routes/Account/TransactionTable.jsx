@@ -15,6 +15,7 @@ import axios from "axios";
 import { toast } from "sonner";
 import { BarLoader } from "react-spinners";
 import { Pagination, PaginationContent, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from "@/components/ui/pagination";
+import { useNavigate } from "react-router-dom";
 
 const RECURRING_INTERVALS = {
     daily:"Daily",
@@ -42,6 +43,8 @@ function TransactionTable({ transactions, onRefresh }){
     const [currPageTransactions, setCurrPageTransactions] = useState([]);
 
     const entriesPerPage = 20;
+
+    const navigate = useNavigate();
 
     useEffect(() => {
         setLocalTransactions(transactions);
@@ -112,7 +115,6 @@ function TransactionTable({ transactions, onRefresh }){
 
     const { getToken } = useAuth();
 
-
     const bulkDeleteTransactions = async () => {
         setLoading(true);
         setError(null);
@@ -174,8 +176,8 @@ function TransactionTable({ transactions, onRefresh }){
         setSelectTransactions([]);
     };
 
-    const handleEdit = () => {
-
+    const handleEdit = (id) => {
+        navigate(`/transaction/create?id=${id}`);
     };
 
     const handleDelete = async (id) => {
@@ -358,7 +360,7 @@ function TransactionTable({ transactions, onRefresh }){
                                                     <Button variant="ghost" className="h-8 w-8 p-0"><MoreHorizontal className="h-4 w-4" /></Button>
                                                 </DropdownMenuTrigger>
                                                 <DropdownMenuContent>
-                                                    <DropdownMenuItem onClick={()=>handleEdit()}>Edit</DropdownMenuItem>
+                                                    <DropdownMenuItem onClick={()=>handleEdit(transaction.id)}>Edit</DropdownMenuItem>
                                                     <DropdownMenuSeparator />
                                                     <DropdownMenuItem onClick={()=>handleDelete([transaction.id])} className="text-destructive">Delete</DropdownMenuItem>
                                                 </DropdownMenuContent>

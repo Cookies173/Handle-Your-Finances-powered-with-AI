@@ -8,10 +8,7 @@ function AddTransaction(){
     return (
         <div>
             <Header />
-            <div className="max-w-3xl mx-auto px-5 pt-20">
-                <h1 className="text-5xl gradient-title">Add Transaction</h1>
-                <AddTForm />
-            </div>
+            <AddTForm />
             <Toaster richColors/>
             <Footer />
         </div>
