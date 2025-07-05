@@ -32,7 +32,7 @@ function AccountsGrid({ onNewDefault }){
     };
 
     return(
-        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3 px-4">
+        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3 pt-8">
             <CreateAccount open={open} setOpen={setOpen} triggerButton={true} onRefresh={getAccounts} />
             {accounts!=undefined && accounts.map((account) => {
                 return <AccountCard key={account.id} account={account} onRefresh={getAccounts} />

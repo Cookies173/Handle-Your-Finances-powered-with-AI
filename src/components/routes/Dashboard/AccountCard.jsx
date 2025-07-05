@@ -12,7 +12,7 @@ function AccountCard({ account, onRefresh }){
     const [loading, setLoading] = useState(null);
     const [error, setError] = useState(null);
 
-    const { name, type, balance, id, isdefault } = account;
+    const { name, type, balance, id, isdefault, transactioncount } = account;
 
     useEffect(() => {
         if(tdata && !loading){
@@ -84,6 +84,7 @@ function AccountCard({ account, onRefresh }){
                         <ArrowUpRight className="mr-1 h-4 w-4 text-green-500" />
                         Income
                     </div>
+                    <p>{transactioncount} Transactions</p>
                     <div className="flex items-center">
                         <ArrowDownRight className="mr-1 h-4 w-4 text-red-500" />
                         Expense
