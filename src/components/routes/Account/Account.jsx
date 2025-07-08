@@ -5,10 +5,10 @@ import { useNavigate, useParams } from "react-router-dom";
 import Info from "./Info.jsx";
 import Header from "../Header/Header.jsx";
 import Footer from "../Header/Footer.jsx";
-import TransactionTable from "./TransactionTable.jsx";
 import { BarLoader } from "react-spinners";
 import { Toaster } from "@/components/ui/sonner";
-import Chart from "./Chart.jsx";
+const Chart = React.lazy(() => import("./Chart.jsx"));
+const TransactionTable = React.lazy(() => import("./TransactionTable.jsx"));
 
 function Account(){
 
@@ -54,8 +54,6 @@ function Account(){
                     <Info account={account} transactions={transactions}/>
                     <Suspense fallback={<BarLoader className="mt-4" width={"100%"} color="#446B5C" />}>
                         <Chart transactions={transactions} />
-                    </Suspense>
-                    <Suspense fallback={<BarLoader className="mt-4" width={"100%"} color="#446B5C" />}>
                         <TransactionTable transactions={transactions} onRefresh={getAccountDetail} />
                     </Suspense>
                     <Toaster richColors/>

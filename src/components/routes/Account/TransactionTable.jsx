@@ -211,7 +211,7 @@ function TransactionTable({ transactions, onRefresh }){
         <div>
             <div className="space-y-4 px-5 pt-5">
                 {loading && (<BarLoader className="mt-4" width={"100%"} color="#446B5C" />)}
-                <div className="flex flex-col sm:flex-row gap-4">
+                <div className="flex flex-col sm:flex-row gap-4 sticky top-20 z-30 bg-white/80 backdrop-blur-md">
                     <div className="relative flex-1">
                         <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
                         <Input 

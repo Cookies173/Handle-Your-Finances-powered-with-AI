@@ -1,11 +1,8 @@
 import React, { Suspense, useState } from "react";
 import Header from "../Header/Header.jsx";
 import Footer from "../Header/Footer.jsx";
-// import AccountsGrid from "./AccountsGrid.jsx";
 import { BarLoader } from "react-spinners";
 import { Toaster } from "@/components/ui/sonner";
-// import Budget from "./Budget.jsx";
-// import Overview from "./Overview.jsx";
 const Budget = React.lazy(() => import("./Budget.jsx"));
 const Overview = React.lazy(() => import("./Overview.jsx"));
 const AccountsGrid = React.lazy(() => import("./AccountsGrid.jsx"));
@@ -21,11 +18,7 @@ function Dashboard(){
                 <h1 className="text-6xl font-bold gradient-title mb-4">Dashboard</h1>
                 <Suspense fallback={<BarLoader className="mt-4" width={"100%"} color="#446B5C" />}>
                     <Budget dprop={defaultProp} />
-                </Suspense>
-                <Suspense fallback={<BarLoader className="mt-4" width={"100%"} color="#446B5C" />}>
                     <Overview />
-                </Suspense>
-                <Suspense fallback={<BarLoader className="mt-4" width={"100%"} color="#446B5C" />}>
                     <AccountsGrid onNewDefault={setDefaultProp} />
                 </Suspense>
             </div>
