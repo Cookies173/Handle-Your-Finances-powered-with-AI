@@ -9,7 +9,9 @@ function Header(){
     return (
         <div className="fixed top-0 w-full bg-white/80 backdrop-blur-md z-50 border-b">
             <nav className="container flex items-center mx-auto px-4 py-4 justify-between">
-                <img className="size-11 w-auto opacity-100 object-contain" src="/Header/pilot-svgrepo-com.png" alt="PennyPilot Logo" />
+                <Link to="/">
+                    <img className="size-11 w-auto opacity-100 object-contain" src="/Header/pilot-svgrepo-com.png" alt="PennyPilot Logo" />
+                </Link>
                 <div className="flex items-center space-x-4">
                     <SignedIn>
                         <Link to="/dashboard" className="text-gray-600 hover:text-blue-800 flex items-center gap-2">
