@@ -110,11 +110,6 @@ function AddTForm(){
                 },
             });
             setAccounts(res.data.accounts);
-            // const defaultId = (res.data.accounts).find((acc) => acc.isdefault)?.id;
-            // const defaultIdString = String(defaultId);
-            // if(!transactionId && defaultIdString){
-            //     setValue("accountId", defaultIdString);
-            // }
         }
         catch(err){
             console.error("Failed to fetch accounts:", err.message);
@@ -157,6 +152,7 @@ function AddTForm(){
             if(res.status === 200 && res.data.success){
                 setTdata(res);
                 setError(null);
+                getAccounts();
             }
         }
         catch(err){
