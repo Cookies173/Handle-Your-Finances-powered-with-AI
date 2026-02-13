@@ -17,8 +17,8 @@ function Dashboard(){
             <div className="px-4 py-20">
                 <h1 className="text-6xl font-bold gradient-title mb-4">Dashboard</h1>
                 <Suspense fallback={<BarLoader className="mt-4" width={"100%"} color="#446B5C" />}>
-                    {defaultProp.length>0 && <Budget dprop={defaultProp} />}
-                    <Overview />
+                    {/* {defaultProp.length>0 && <Budget dprop={defaultProp} />} */}
+                    {/* <Overview /> */}
                     <AccountsGrid onNewDefault={setDefaultProp} />
                 </Suspense>
             </div>
