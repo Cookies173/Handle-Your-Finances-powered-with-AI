@@ -110,16 +110,25 @@ function AddTForm(){
                 },
             });
             setAccounts(res.data.accounts);
-            const defaultId = (res.data.accounts).find((acc) => acc.isdefault)?.id;
-            const defaultIdString = String(defaultId);
-            if(!transactionId && defaultIdString){
-                setValue("accountId", defaultIdString);
-            }
+            // const defaultId = (res.data.accounts).find((acc) => acc.isdefault)?.id;
+            // const defaultIdString = String(defaultId);
+            // if(!transactionId && defaultIdString){
+            //     setValue("accountId", defaultIdString);
+            // }
         }
         catch(err){
             console.error("Failed to fetch accounts:", err.message);
         }
     };
+
+    useEffect(() => {
+        if(accounts && !transactionId){
+            const defaultAcc = accounts.find(acc => acc.isdefault);
+            if(defaultAcc){
+                setValue("accountId", String(defaultAcc.id));
+            }
+        }
+    }, [accounts]);
 
     useEffect(() => {
         if(tdata && !loading){
