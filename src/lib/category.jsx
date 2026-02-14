@@ -43,6 +43,13 @@ export const defaultCategories = [
     icon: "Users",
   },
   {
+    id: "liquidate",
+    name: "Liquidate",
+    type: "income",
+    color: "#0ea5e9", // green-600
+    icon: "Money",
+  },
+  {
     id: "otherIncome",
     name: "Other Income",
     type: "income",
