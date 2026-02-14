@@ -38,7 +38,7 @@ export const defaultCategories = [
   {
     id: "familyIncome",
     name: "Vyavaharik",
-    type: "expense",
+    type: "income",
     color: "#c026d3", // fuchsia-600
     icon: "Users",
   },
