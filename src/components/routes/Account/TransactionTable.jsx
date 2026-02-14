@@ -2,7 +2,7 @@ import React, { useEffect, useMemo, useState } from "react";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Checkbox } from "@/components/ui/checkbox";
 import { format } from "date-fns";
-import { categoryColors } from "../../../lib/category.jsx";
+import { idToColor, idToName, idToIcon } from "../../../lib/category.jsx";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import { Badge } from "@/components/ui/badge";
 import { ChevronDown, ChevronUp, Clock, MoreHorizontal, RefreshCw, Search, Trash, X } from "lucide-react";
@@ -228,6 +228,7 @@ function TransactionTable({ transactions, onRefresh }){
                             <SelectContent>
                                 <SelectItem value="income">Income</SelectItem>
                                 <SelectItem value="expense">Expense</SelectItem>
+                                <SelectItem value="invested">Saving & Investment</SelectItem>
                             </SelectContent>
                         </Select>
                         <Select value={recurringFilter} onValueChange={(value) => setRecurringFilter(value)}>
@@ -319,15 +320,15 @@ function TransactionTable({ transactions, onRefresh }){
                                         <TableCell>{transaction.description}</TableCell>
                                         <TableCell className="capitalize ">
                                             <span 
-                                                style={{background : categoryColors[transaction.category]}}
+                                                style={{background : idToColor[transaction.category]}}
                                                 className="px-2 py-1 rounded text-white text-sm">
-                                                {transaction.category}
+                                                {idToName[transaction.category]}
                                             </span>
                                         </TableCell>
                                         <TableCell 
                                             className="text-right font-medium" 
-                                            style={{color: transaction.type === "expense" ? "red" : "green"}}>
-                                            {transaction.type === "expense" ? "-" : "+"}
+                                            style={{color: transaction.type === "expense" ? "red" : (transaction.type === "invested" ? "#7c3aed" : "green")}}>
+                                            {(transaction.type === "expense" || transaction.type === "invested") ? "-" : "+"}
                                             ₹{parseFloat(transaction.amount).toFixed(2)}
                                         </TableCell>
                                         <TableCell>{transaction.isrecurring ? (

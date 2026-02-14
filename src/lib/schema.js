@@ -8,7 +8,7 @@ export const accountSchema = z.object({
 });
 
 export const transactionSchema = z.object({
-    type: z.enum(["income", "expense"]),
+    type: z.enum(["income", "expense", "invested"]),
     amount: z.string().min(1, "Amount is reqired"),
     description: z.string().optional(),
     date: z.date({required_error: "Date is required"}),

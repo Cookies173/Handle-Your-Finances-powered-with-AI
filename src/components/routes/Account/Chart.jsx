@@ -29,17 +29,22 @@ function Chart({ transactions }){
 
         const grouped = filtered.reduce((acc, t) => {
             const key = format(new Date(t.date), "yyyy-MM-dd");
-            if (!acc[key]) {
+            if(!acc[key]){
                 acc[key] = {
                     sortDate: key,
                     date: format(new Date(t.date), "MMM dd"),
                     income: 0,
-                    expense: 0
+                    expense: 0,
+                    invested: 0
                 };
             }
-            if (t.type === "income") {
+            if(t.type === "income"){
                 acc[key].income += parseFloat(t.amount);
-            } else {
+            } 
+            else if(t.type === "invested"){
+                acc[key].invested += parseFloat(t.amount);
+            }
+            else{
                 acc[key].expense += parseFloat(t.amount);
             }
 
@@ -54,8 +59,12 @@ function Chart({ transactions }){
 
     const totals = useMemo(() => {
         return filteredData.reduce((acc, t) => (
-            { income : acc.income + t.income, expense : acc.expense + t.expense }
-        ), {income : 0, expense : 0});
+            {
+                income : acc.income + t.income, 
+                expense : acc.expense + t.expense,
+                invested : acc.invested + t.invested
+            }
+        ), {income : 0, expense : 0, invested : 0});
     }, [filteredData]);
 
 
@@ -86,9 +95,13 @@ function Chart({ transactions }){
                             <p className="text-lg font-bold text-red-500">₹{totals.expense.toFixed(2)}</p>
                         </div>
                         <div className="text-center">
+                            <p className="text-muted-foreground">Total Investments</p>
+                            <p className="text-lg font-bold text-violet-500">₹{totals.invested.toFixed(2)}</p>
+                        </div>
+                        <div className="text-center">
                             <p className="text-muted-foreground">Net Amount</p>
-                            <p className={`text-lg font-bold ${(totals.income-totals.expense>=0) ? "text-green-500" : "text-red-500"}`}>
-                                ₹{(totals.income-totals.expense).toFixed(2)}
+                            <p className={`text-lg font-bold ${(totals.income-totals.expense-totals.invested>=0) ? "text-green-500" : "text-red-500"}`}>
+                                ₹{(totals.income-totals.expense-totals.invested).toFixed(2)}
                             </p>
                         </div>
                     </div>
@@ -103,6 +116,7 @@ function Chart({ transactions }){
                                 <Legend />
                                 <Bar dataKey="income" name="Income" fill="#48bb78" radius={[4, 4, 0, 0]} />
                                 <Bar dataKey="expense" name="Expense" fill="#F44336"  radius={[4, 4, 0, 0]} />
+                                <Bar dataKey="invested" name="Saving & Investment" fill="#7c3aed"  radius={[4, 4, 0, 0]} />
                             </BarChart>
                         </ResponsiveContainer>
                     </div>

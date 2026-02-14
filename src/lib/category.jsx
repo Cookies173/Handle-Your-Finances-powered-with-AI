@@ -80,6 +80,13 @@ export const defaultCategories = [
     icon: "FileText",
   },
   {
+    id: "interBankTransfer",
+    name: "Inter Bank Transfer",
+    type: "invested",
+    color: "#0ea5e9", // sky-500
+    icon: "ArrowRightLeft",
+  },
+  {
     id: "otherInvestment",
     name: "Other Investment",
     type: "invested",
@@ -218,7 +225,17 @@ export const defaultCategories = [
   // },
 ];
 
-export const categoryColors = defaultCategories.reduce((acc, category) => {
+export const idToColor = defaultCategories.reduce((acc, category) => {
   acc[category.id] = category.color;
+  return acc;
+}, {});
+
+export const idToName = defaultCategories.reduce((acc, category) => {
+  acc[category.id] = category.name;
+  return acc;
+}, {});
+
+export const idToIcon = defaultCategories.reduce((acc, category) => {
+  acc[category.id] = category.icon;
   return acc;
 }, {});

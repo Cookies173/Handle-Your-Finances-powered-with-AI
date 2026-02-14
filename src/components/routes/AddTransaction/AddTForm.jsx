@@ -226,6 +226,7 @@ function AddTForm(){
                             <SelectContent>
                                 <SelectItem value="expense">Expense</SelectItem>
                                 <SelectItem value="income">Income</SelectItem>
+                                <SelectItem value="invested">Saving & Investment</SelectItem>
                             </SelectContent>
                         </Select>
                         {errors.type && (
