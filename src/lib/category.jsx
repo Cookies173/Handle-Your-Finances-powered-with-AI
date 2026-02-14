@@ -202,6 +202,13 @@ export const defaultCategories = [
     subcategories: ["Parents' medical expenses", "Family gifts", "Household help salary", "Relatives support", "Festival expenses"],
   },
   {
+    id: "education",
+    name: "Education",
+    type: "expense",
+    color: "#0ea5e9", // sky-500
+    icon: "Book",
+  },
+  {
     id: "otherExpense",
     name: "Other Expenses",
     type: "expense",
