@@ -25,3 +25,7 @@ export const transactionSchema = z.object({
         });
     }
 });
+
+export const accountNameSchema = z.object({
+    name: z.string().min(1, "Name is required")
+});

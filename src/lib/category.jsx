@@ -205,7 +205,7 @@ export const defaultCategories = [
     type: "expense",
     color: "#c026d3", // fuchsia-600
     icon: "Users",
-    description: "Shared or dependent-related expenses",
+    description: "Expenses done by me, used by others",
     subcategories: ["Parents' medical expenses", "Family gifts", "Household help salary", "Relatives support", "Festival expenses"],
   },
   {
@@ -213,7 +213,9 @@ export const defaultCategories = [
     name: "Education",
     type: "expense",
     color: "#0ea5e9", // sky-500
-    icon: "Book",
+    icon: "BookOpen",
+    description: "Expenses related to learning, academic growth, and skill development",
+    subcategories: ["School / College fees", "Online courses", "Coaching / Tuition classes", "Exam fees", "Books & study materials", "Certifications", "Workshops & seminars", "Educational software / subscriptions"],
   },
   {
     id: "otherExpense",
