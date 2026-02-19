@@ -71,7 +71,7 @@ function Overview(){
     const getTransactions = async () => {
         try{
             const token = await getToken();
-            const res = await axios.get("https://penny-pilot-server.vercel.app/dash/dat", {
+            const res = await axios.get("https://penny-pilot-server.vercel.app/anyl/dat", {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },

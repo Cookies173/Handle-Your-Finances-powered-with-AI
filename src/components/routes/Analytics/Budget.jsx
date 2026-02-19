@@ -29,7 +29,7 @@ function Budget({ dprop }){
     const getCurrentBudget = async () => {
         try{
             const token = await getToken();
-            const res = await axios.get("https://penny-pilot-server.vercel.app/dash/bud", {
+            const res = await axios.get("https://penny-pilot-server.vercel.app/anyl/bud", {
                 headers: {
                 Authorization: `Bearer ${token}`,
                 },
@@ -62,7 +62,7 @@ function Budget({ dprop }){
         setError(null);
         try{
             const token = await getToken();
-            const res = await axios.post("https://penny-pilot-server.vercel.app/dash/upb", { newAmount : newBudget }, {
+            const res = await axios.post("https://penny-pilot-server.vercel.app/anyl/upb", { newAmount : newBudget }, {
                 headers: {
                 Authorization: `Bearer ${token}`,
                 },
