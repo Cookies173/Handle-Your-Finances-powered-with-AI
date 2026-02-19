@@ -5,7 +5,7 @@ import { useAuth } from "@clerk/clerk-react";
 import AccountCard from "./AccountCard.jsx";
 import { BarLoader } from "react-spinners";
 
-function AccountsGrid({ onNewDefault }){
+function AccountsGrid(){
 
     const [accounts, setAccounts] = useState(undefined);
     const [open, setOpen] = useState(false);
@@ -30,7 +30,6 @@ function AccountsGrid({ onNewDefault }){
                 },
             });
             setAccounts(res.data.accounts);
-            onNewDefault(res.data.accounts);
         }
         catch(err){
             console.error("Failed to fetch accounts:", err.message);
