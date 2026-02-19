@@ -9,6 +9,7 @@ import Dashboard from "./components/routes/Dashboard/Dashboard.jsx";
 import PageNotFound from "./components/routes/Authentication/PageNotFound.jsx";
 import Account from "./components/routes/Account/Account.jsx";
 import AddTransaction from "./components/routes/AddTransaction/AddTransaction.jsx";
+import Analytics from "./components/routes/Analytics/Analytics.jsx";
 
 function App(){
   return (
@@ -20,6 +21,7 @@ function App(){
         <Route path="*" element={<PageNotFound />} />
 
         <Route element={<ProtectedRoutes />}>
+        <Route path="/analytics" element={<Analytics />} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/account/:id" element={<Account />} />
           <Route path="transaction/create" element={<AddTransaction />} />

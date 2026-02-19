@@ -3,7 +3,7 @@ import Profile from "./Profile.jsx";
 import { SignedIn } from "@clerk/clerk-react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { LayoutDashboard, PenBox } from "lucide-react";
+import { ChartPie, LayoutDashboard, PenBox } from "lucide-react";
 
 function Header(){
     return (
@@ -13,6 +13,13 @@ function Header(){
                     <img className="size-11 w-auto opacity-100 object-contain" src="/Header/pilot-svgrepo-com.png" alt="PennyPilot Logo" />
                 </Link>
                 <div className="flex items-center space-x-4">
+                    <SignedIn>
+                        <Link to="/analytics" className="text-gray-600 hover:text-blue-800 flex items-center gap-2">
+                            <Button variant="outline">
+                                <ChartPie size={18} /><span className="hidden md:inline">Analytics</span>
+                            </Button>
+                        </Link>
+                    </SignedIn>
                     <SignedIn>
                         <Link to="/dashboard" className="text-gray-600 hover:text-blue-800 flex items-center gap-2">
                             <Button variant="outline">
