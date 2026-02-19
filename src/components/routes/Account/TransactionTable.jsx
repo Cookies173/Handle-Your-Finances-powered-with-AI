@@ -208,7 +208,7 @@ function TransactionTable({ transactions, onRefresh }){
     };
 
     return (
-        <div>
+        <div id="TransactionTable">
             <div className="space-y-4 px-5 pt-5">
                 {loading && (<BarLoader className="mt-4" width={"100%"} color="#446B5C" />)}
                 <div className="flex flex-col sm:flex-row gap-4 sticky top-20 z-30 bg-white/80 backdrop-blur-md">
@@ -378,15 +378,15 @@ function TransactionTable({ transactions, onRefresh }){
                     <Pagination>
                         <PaginationContent>
                             <PaginationItem>
-                                <PaginationPrevious href="#" onClick={() => setPage((p) => Math.max(1, p-1))} />
+                                <PaginationPrevious href="#TransactionTable" onClick={() => setPage((p) => Math.max(1, p-1))} />
                             </PaginationItem>
                             {(totalPages!=undefined) && [...Array(totalPages)].map((_, i) => (
                                 <PaginationItem key={i}>
-                                    <PaginationLink href="#" isActive={page === i+1} onClick={() => setPage(i+1)} >{i+1}</PaginationLink>
+                                    <PaginationLink href="#TransactionTable" isActive={page === i+1} onClick={() => setPage(i+1)} >{i+1}</PaginationLink>
                                 </PaginationItem>
                             ))}
                             <PaginationItem>
-                                <PaginationNext href="#" onClick={() => setPage((p) => Math.min(totalPages, p+1))} />
+                                <PaginationNext href="#TransactionTable" onClick={() => setPage((p) => Math.min(totalPages, p+1))} />
                             </PaginationItem>
                         </PaginationContent>
                     </Pagination>
