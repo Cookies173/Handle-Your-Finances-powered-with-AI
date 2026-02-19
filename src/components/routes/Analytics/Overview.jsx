@@ -7,6 +7,7 @@ import { ArrowDownRight, ArrowUpRight, Loader2 } from "lucide-react";
 import { format } from "date-fns";
 import { cn } from "@/lib/utils";
 import { Cell, Legend, Pie, PieChart, ResponsiveContainer } from "recharts";
+import { idToName, idToColor } from "../../../lib/category.jsx";
 
 function Overview(){
 
@@ -98,8 +99,6 @@ function Overview(){
         }
     };
 
-    const COLORS = ["#FF6B6B", "#4ECDC4", "#45B7D1", "#96CEB4", "#FFEEAD", "#D4A5A5", "#9FA8DA"];
-
     return (
         <div>
             <div className="grid gap-4 md:grid-cols-2">
@@ -170,15 +169,14 @@ function Overview(){
                                                     data={pieChartData} 
                                                     cx="50%" cy="50%" 
                                                     outerRadius={80} 
-                                                    label={({name, value}) => `${name}: ₹${value.toFixed(2)}`}
+                                                    label={({name, value}) => `${idToName[name]}: ₹${value.toFixed(2)}`}
                                                     dataKey="value"
                                                     fill="#81EC86"
                                                 >
                                                     {pieChartData.map((entry, index) => (
-                                                        <Cell key={`cell-${index}`} fill={COLORS[index%COLORS.length]}/>
+                                                        <Cell key={`cell-${index}`} fill={idToColor[entry.name]}/>
                                                     ))}
                                                 </Pie>
-                                                <Legend />
                                             </PieChart>
                                         </ResponsiveContainer>
                                     </div>
