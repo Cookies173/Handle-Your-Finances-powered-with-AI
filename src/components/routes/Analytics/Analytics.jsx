@@ -1,4 +1,4 @@
-import React, { Suspense, useState } from "react";
+import React, { Suspense, useState, useEffect } from "react";
 import Header from "../Header/Header";
 import Footer from "../Header/Footer";
 import { BarLoader } from "react-spinners";
