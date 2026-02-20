@@ -8,7 +8,7 @@ import { Check, Pencil, X } from "lucide-react";
 import { toast } from "sonner";
 import { Progress } from "@/components/ui/progress";
 
-function Budget({ dprop }){
+function Budget(){
 
     const [initialBudget, setInitialBudget] = useState(undefined);
     const [currentExpenses, setCurrentExpenses] = useState(0);
@@ -22,7 +22,7 @@ function Budget({ dprop }){
 
     useEffect(() => {
         getCurrentBudget();
-    }, [tdata, loading, dprop]);
+    }, [tdata, loading]);
 
     const { getToken } = useAuth();
 

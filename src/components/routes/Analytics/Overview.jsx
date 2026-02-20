@@ -1,17 +1,16 @@
-import { useAuth } from "@clerk/clerk-react";
-import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { useAuth } from "@clerk/clerk-react";
+import axios from "axios";
 import { ArrowDownRight, ArrowUpRight, Loader2 } from "lucide-react";
 import { format } from "date-fns";
 import { cn } from "@/lib/utils";
-import { Cell, Legend, Pie, PieChart, ResponsiveContainer } from "recharts";
+import { Cell, Pie, PieChart, ResponsiveContainer } from "recharts";
 import { idToName, idToColor } from "../../../lib/category.jsx";
 
-function Overview(){
+function Overview({ transactions }){
 
-    const [transactions, setTransactions] = useState(undefined);
     const [accounts, setAccounts] = useState(undefined);
     const [selectedAccountId, setSelectedAccountId] = useState(undefined);
     const [filteredTransactions, setFilteredTransactions] = useState(undefined);
@@ -22,7 +21,6 @@ function Overview(){
 
     useEffect(() => {
         getAccounts();
-        getTransactions();
     }, []);
 
     useEffect(() => {
@@ -68,21 +66,6 @@ function Overview(){
     }, [expensesByCategory]);
 
     const { getToken } = useAuth();
-
-    const getTransactions = async () => {
-        try{
-            const token = await getToken();
-            const res = await axios.get("https://penny-pilot-server.vercel.app/anyl/dat", {
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                },
-            });
-            setTransactions(res.data.transactions);
-        }
-        catch(err){
-            console.error("Failed to get transactions:", err);
-        }
-    };
 
     const getAccounts = async () => {
         try{

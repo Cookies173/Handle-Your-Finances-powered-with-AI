@@ -112,7 +112,13 @@ function Chart({ transactions }){
                                 <CartesianGrid strokeDasharray="3 3" vertical={false} />
                                 <XAxis dataKey="date" fontSize={12} tickLine={false} axisLine={false} />
                                 <YAxis fontSize={12} tickLine={false} axisLine={false} tickFormatter={(value) => `₹${value}`} />
-                                <Tooltip />
+                                <Tooltip 
+                                    cursor={{ fill: "rgba(124,58,237,0.1)" }}
+                                    contentStyle={{
+                                        borderRadius: "8px",
+                                        border: "1px solid #e5e7eb",
+                                    }}
+                                />
                                 <Legend />
                                 <Bar dataKey="income" name="Income" fill="#48bb78" radius={[4, 4, 0, 0]} />
                                 <Bar dataKey="expense" name="Expense" fill="#F44336"  radius={[4, 4, 0, 0]} />
