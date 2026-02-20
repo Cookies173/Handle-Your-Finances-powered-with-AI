@@ -258,6 +258,11 @@ export const idToName = defaultCategories.reduce((acc, category) => {
   return acc;
 }, {});
 
+export const nameToColor = defaultCategories.reduce((acc, category) => {
+  acc[category.name] = category.color;
+  return acc;
+}, {});
+
 export const idToIcon = defaultCategories.reduce((acc, category) => {
   acc[category.id] = category.icon;
   return acc;
