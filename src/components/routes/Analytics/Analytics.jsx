@@ -21,7 +21,7 @@ function Analytics(){
     const getTransactions = async () => {
         try{
             const token = await getToken();
-            const res = await axios.get("http://localhost:3000/anyl/dat", {
+            const res = await axios.get("https://penny-pilot-server.vercel.app/anyl/dat", {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },
