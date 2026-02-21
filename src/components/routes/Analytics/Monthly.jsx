@@ -15,6 +15,10 @@ function Monthly({ transactions }){
     const [typeTotalSum, setTypeTotalSum] = useState(0);
     const [typeByCategory, setTypeByCategory] = useState({});
     const [barChartData, setBarChartData] = useState(undefined);
+    const [typeDescription, setTypeDescription] = useState({});
+    const [arr1, setArr1] = useState([]);
+    const [arr2, setArr2] = useState([]);
+    const [activeIndex, setActiveIndex] = useState(null);
 
     useEffect(() => {
         if(transactions && date && type){
@@ -52,16 +56,46 @@ function Monthly({ transactions }){
         }
     }, [typeByCategory, date]);
 
-    
+    useEffect(() => {
+        if(date && type){
+            setTypeDescription(typeTransactions.reduce((acc, t) => {
+                const category=t.category;
+                const description = t.description;
+                if(!acc[idToName[category]]) acc[idToName[category]] = {};
+                if(!acc[idToName[category]][description]) acc[idToName[category]][description]=0;
+                acc[idToName[category]][description] += parseFloat(t.amount);
+                return acc;
+            }, {}));
+        }
+    }, [date, type, typeTransactions]);
 
     useEffect(() => {
         if(date && type){
-            setBarChartData(Object.entries(typeByCategory).map(([category, amount]) => {
+            setArr1(Object.entries(typeByCategory).map(([category, amount]) => {
                 const percentage = (typeTotalSum) ? (parseFloat(amount) / parseFloat(typeTotalSum)) * 100 : 0;
                 return ({name: category, value: percentage, amount: amount});
             }));
+
+            setArr2(Object.entries(typeDescription).map(([category, description]) => {
+                return({name: category, description: description});
+            }));
         }
-    }, [date, typeByCategory, typeTotalSum, type]);
+    }, [date, typeByCategory, typeTotalSum, typeDescription, type]);
+
+    useEffect(() => {
+        setBarChartData(arr1.map(item => {
+            const match = arr2.find(i => i.name == item.name);
+            if(match){
+                return {...item, ...match};
+            }
+            else return item;
+        }));
+    }, [arr1, arr2]);
+
+    const formatter = new Intl.NumberFormat('en-IN', {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2,
+    });
 
     return (
         <div className="py-8">
@@ -73,7 +107,10 @@ function Monthly({ transactions }){
                             <ChevronLeft className="h-4 w-4" />
                             Previous
                         </Button>
-                        <CardTitle className="text-base font-normal px-2">{format(date, "MMMM, yyyy")}</CardTitle>
+                        <div className="px-2">
+                            <CardTitle className="text-base font-normal">{format(date, "MMMM, yyyy")}</CardTitle>
+                            <p className="text-center text-muted-foreground">Total: {formatter.format(typeTotalSum)} ₹</p>
+                        </div>
                         <Button variant="outline" size="sm" onClick={() => setDate(addMonths(date, 1))} disabled={getMonth(new Date()) == getMonth(date)}>
                             Next
                             <ChevronRight className="h-4 w-4" />
@@ -97,18 +134,40 @@ function Monthly({ transactions }){
                                 <CartesianGrid strokeDasharray="3 3" vertical={true} horizontal={false} />
                                 <XAxis type="number"  fontSize={12} tickLine={false} axisLine={false} tickFormatter={(value) => `${parseFloat(value).toFixed(2)}%`} />
                                 <YAxis dataKey="name" type="category" fontSize={12} tickLine={false} axisLine={false} />
-                                <Tooltip 
+                                <Tooltip
+                                    active={activeIndex !== null}
                                     cursor={{ fill: "rgba(124,58,237,0.1)" }}
+                                    trigger="click"
+                                    wrapperStyle={{ pointerEvents: "auto" }}
                                     formatter={(value, name, props) => {
-                                        const { amount } = props.payload;
-                                        return `${parseFloat(value).toFixed(2)}% (₹${parseFloat(amount).toFixed(2)})`;
+                                        const { amount, description } = props.payload;
+                                        return [
+                                            <div>
+                                                <div className="text-sm font-semibold text-gray-800 pb-2">{parseFloat(value).toFixed(2)}% (₹{formatter.format(amount)})</div>
+                                                <div className="bg-white shadow-xl rounded-xl border border-gray-200 p-2 w-72 max-h-50 overflow-y-auto">
+                                                    {description && Object.entries(description).map(([key, value]) => (
+                                                        <div key={key} style={{ marginTop: "6px", fontSize: "12px", color: "#6b7280" }}>{key}: {value}</div>
+                                                    ))}
+                                                </div>
+                                            </div>
+                                        ];
                                     }}
                                     contentStyle={{
                                         borderRadius: "8px",
                                         border: "1px solid #e5e7eb",
                                     }}
                                 />
-                                <Bar dataKey="value" name="Contribution" radius={[0, 4, 4, 0]} barSize={15} label={{ position: 'right', formatter: (value) => `${parseFloat(value).toFixed(2)}%` }}>
+                                <Bar
+                                    dataKey="value" 
+                                    name="Contribution"
+                                    radius={[0, 4, 4, 0]} 
+                                    barSize={20} 
+                                    label={{ position: 'right', formatter: (value) => `${parseFloat(value).toFixed(2)}%` }}
+                                    onClick={(data, index) => {
+                                        if (activeIndex === index) setActiveIndex(null);
+                                        else setActiveIndex(index);
+                                    }}
+                                >
                                     {barChartData && (barChartData.map((entry, index) => (
                                         <Cell key={index} fill={nameToColor[entry.name]} />
                                     )))}
