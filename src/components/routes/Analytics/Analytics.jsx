@@ -5,6 +5,8 @@ import { BarLoader } from "react-spinners";
 const Budget = React.lazy(() => import("./Budget.jsx"));
 const Overview = React.lazy(() => import("./Overview.jsx"));
 const Monthly = React.lazy(() => import("./Monthly.jsx"));
+const Yearly = React.lazy(() => import("./Yearly.jsx"));
+const CashFlow = React.lazy(() => import("./CashFlow.jsx"));
 import { useAuth } from "@clerk/clerk-react";
 import axios from "axios";
 
@@ -42,6 +44,8 @@ function Analytics(){
                 <Budget />
                 <Overview transactions={transactions} />
                 <Monthly transactions={transactions} />
+                <CashFlow transactions={transactions} />
+                <Yearly transactions={transactions} />
             </Suspense>
         </div>
         <Footer />

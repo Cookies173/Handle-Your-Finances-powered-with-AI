@@ -2,12 +2,12 @@ import React, { useEffect, useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Bar, BarChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis, Cell } from "recharts";
-import { format, addMonths, subMonths, getMonth } from "date-fns";
+import { format, addYears, subYears, getYear } from "date-fns";
 import { defaultCategories, idToName, nameToColor } from "../../../lib/category.jsx";
 import { Button } from "@/components/ui/button";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
-function Monthly({ transactions }){
+function Yearly({ transactions }){
 
     const [type, setType] = useState("expense");
     const [date, setDate] = useState(new Date());
@@ -25,7 +25,7 @@ function Monthly({ transactions }){
             setTypeTransactions(transactions.filter((t) => {
                 const transactionDate = new Date(t.date);
                 return (
-                    t.type == type && transactionDate.getMonth() == date.getMonth() && transactionDate.getFullYear() == date.getFullYear()
+                    t.type == type && transactionDate.getYear() == date.getYear()
                 );
             }));
         }
@@ -98,20 +98,20 @@ function Monthly({ transactions }){
     });
 
     return (
-        <div className="py-8">
+        <div>
             <Card>
                 <CardHeader className="flex flex-row items-center justify-between space-y-0">
-                    <CardTitle>Monthly Breakdown</CardTitle>
+                    <CardTitle>Yearly Breakdown</CardTitle>
                     <div className="flex flex-row items-center justify-between space-y-0">
-                        <Button variant="outline" size="sm" onClick={() => setDate(subMonths(date, 1))}>
+                        <Button variant="outline" size="sm" onClick={() => setDate(subYears(date, 1))}>
                             <ChevronLeft className="h-4 w-4" />
                             Previous
                         </Button>
                         <div className="px-2 items-center flex flex-col">
-                            <CardTitle className="text-base font-medium leading-none">{format(date, "MMMM, yyyy")}</CardTitle>
+                            <CardTitle className="text-base font-medium leading-none">Year: {format(date, "yyyy")}</CardTitle>
                             <p className="text-center text-muted-foreground">Total: {formatter.format(typeTotalSum)} ₹</p>
                         </div>
-                        <Button variant="outline" size="sm" onClick={() => setDate(addMonths(date, 1))} disabled={getMonth(new Date()) == getMonth(date)}>
+                        <Button variant="outline" size="sm" onClick={() => setDate(addYears(date, 1))} disabled={getYear(new Date()) == getYear(date)}>
                             Next
                             <ChevronRight className="h-4 w-4" />
                         </Button>
@@ -134,7 +134,7 @@ function Monthly({ transactions }){
                                 <CartesianGrid strokeDasharray="3 3" vertical={true} horizontal={false} />
                                 <XAxis type="number"  fontSize={12} tickLine={false} axisLine={false} hide={true} tickFormatter={(value) => `${parseFloat(value).toFixed(2)}%`} />
                                 <YAxis dataKey="name" type="category" fontSize={12} tickLine={false} axisLine={false} />
-                                <Tooltip
+                                <Tooltip 
                                     active={activeIndex !== null}
                                     cursor={{ fill: "rgba(124,58,237,0.1)" }}
                                     trigger="click"
@@ -181,4 +181,4 @@ function Monthly({ transactions }){
     );
 }
 
-export default Monthly;
+export default Yearly;
