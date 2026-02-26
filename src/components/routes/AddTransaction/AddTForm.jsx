@@ -18,6 +18,7 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import ReceiptScanner from "./ReceiptScanner.jsx";
 import { useSearchParams } from "react-router-dom";
+import { HoverCard, HoverCardContent, HoverCardTrigger } from "@/components/ui/hover-card"
 
 function AddTForm(){
 
@@ -253,16 +254,10 @@ function AddTForm(){
                                     }
                                     setValue("accountId", value);
                                 }}
-                                // defaultValues={accountId}
                             >
                                 <SelectTrigger className="w-[350px]">
                                     <SelectValue 
                                         placeholder="Select Account"
-                                        // children={
-                                        //     accounts?.find(acc => acc.id == accountId)?.name 
-                                        //     ? `${accounts.find(acc => acc.id == accountId)?.name}` 
-                                        //     : "Select Account"
-                                        // } 
                                     />
                                 </SelectTrigger>
                                 <SelectContent>
@@ -290,8 +285,6 @@ function AddTForm(){
                         <label className="text-sm font-medium">Category</label>
                         <Select 
                             onValueChange={(value) => setValue("category", value)}
-                            // defaultValues={getValues("category")} 
-                            // value={getValues("category") ?? ""}
                             value={category ?? ""}
                         >
                             <SelectTrigger className="w-[725px]">
@@ -299,9 +292,21 @@ function AddTForm(){
                             </SelectTrigger>
                             <SelectContent>
                                 {filteredCategories && filteredCategories.map((category) => (
-                                    <SelectItem key={category.id} value={category.id}>
-                                        {category.name}
-                                    </SelectItem>
+                                    <HoverCard key={category.id} openDelay={100} closeDelay={100}>
+                                        <HoverCardTrigger asChild>
+                                            <SelectItem key={category.id} value={category.id}>
+                                                {category.name}
+                                            </SelectItem>
+                                        </HoverCardTrigger>
+                                        <HoverCardContent side="right">
+                                            <div className="flex flex-col gap-1">
+                                                <h4>{category.description}</h4>
+                                                {category.subcategories?.map((sc) => (
+                                                    <div key={sc} className="text-muted-foreground text-sm">- {sc}</div>
+                                                ))}
+                                            </div>
+                                        </HoverCardContent>
+                                    </HoverCard>
                                 ))}
                             </SelectContent>
                         </Select>
@@ -354,9 +359,7 @@ function AddTForm(){
                         <div className="space-y-2">
                             <label className="text-sm font-medium">Recurring Interval</label>
                             <Select 
-                                onValueChange={(value) => setValue("recurringInterval", value)} 
-                                // defaultValues={getValues("recurringInterval")}
-                                // value={getValues("recurringInterval") ?? ""}
+                                onValueChange={(value) => setValue("recurringInterval", value)}
                                 value={recurringInterval ?? ""}
                             >
                                 <SelectTrigger className="w-[725px]">
