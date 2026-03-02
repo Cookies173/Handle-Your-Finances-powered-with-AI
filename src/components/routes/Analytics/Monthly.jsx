@@ -35,7 +35,7 @@ function Monthly({ transactions }){
         if(defaultCategories && date && type){
             setTypeByCategory(defaultCategories.reduce((acc, t) => {
                 const category=t.id;
-                if(!acc[idToName[category]] && t.type == type) acc[idToName[category]] = 0;
+                if(!acc[idToName[category]] && t.type == type && t.analytics) acc[idToName[category]] = 0;
                 return acc;
             }, {}));
         }

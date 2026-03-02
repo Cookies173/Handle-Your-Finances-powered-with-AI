@@ -1,3 +1,5 @@
+import { Description } from "@radix-ui/react-dialog";
+
 export const defaultCategories = [
   // Income Categories
   {
@@ -6,6 +8,7 @@ export const defaultCategories = [
     type: "income",
     color: "#16a34a", // green-600
     icon: "Briefcase",
+    analytics: true,
   },
   {
     id: "dividends",
@@ -13,6 +16,7 @@ export const defaultCategories = [
     type: "income",
     color: "#059669", // emerald-600
     icon: "Coins",
+    analytics: true,
   },
   {
     id: "bankInterest",
@@ -20,6 +24,7 @@ export const defaultCategories = [
     type: "income",
     color: "#0891b2", // cyan-600
     icon: "Landmark",
+    analytics: true,
   },
   {
     id: "rental",
@@ -27,20 +32,15 @@ export const defaultCategories = [
     type: "income",
     color: "#d97706", // amber-600
     icon: "Building",
-  },
-  {
-    id: "splitReturn",
-    name: "Split Return",
-    type: "income",
-    color: "#db2777", // pink-600
-    icon: "Users",
+    analytics: true,
   },
   {
     id: "familyIncome",
     name: "Vyavaharik",
     type: "income",
     color: "#c026d3", // fuchsia-600
-    icon: "Users",
+    icon: "Smile",
+    analytics: true,
   },
   {
     id: "liquidate",
@@ -48,6 +48,23 @@ export const defaultCategories = [
     type: "income",
     color: "#0ea5e9", // green-600
     icon: "Money",
+    analytics: true,
+  },
+  {
+    id: "splitReturn",
+    name: "Split Return",
+    type: "income",
+    color: "#db2777", // pink-600
+    icon: "Users",
+    analytics: false,
+  },
+  {
+    id: "interBankTransfer",
+    name: "Inter Bank Transfer",
+    type: "income",
+    color: "#0ea5e9", // sky-500
+    icon: "ArrowRightLeft",
+    analytics: false,
   },
   {
     id: "otherIncome",
@@ -55,6 +72,7 @@ export const defaultCategories = [
     type: "income",
     color: "#475569", // slate-600
     icon: "PlusCircle",
+    analytics: true,
   },
 
   // Invested Categories
@@ -64,6 +82,7 @@ export const defaultCategories = [
     type: "invested",
     color: "#15803d", // green-700
     icon: "ShieldCheck",
+    analytics: true,
   },
   {
     id: "retirement",
@@ -71,6 +90,7 @@ export const defaultCategories = [
     type: "invested",
     color: "#0ea5e9", // sky-500
     icon: "Clock",
+    analytics: true,
   },
   {
     id: "stockPortfolio",
@@ -78,6 +98,7 @@ export const defaultCategories = [
     type: "invested",
     color: "#4338ca", // indigo-700
     icon: "BarChart3",
+    analytics: true,
   },
   {
     id: "mutualFunds",
@@ -85,6 +106,7 @@ export const defaultCategories = [
     type: "invested",
     color: "#7c3aed", // violet-600
     icon: "PieChart",
+    analytics: true,
   },
   {
     id: "bonds",
@@ -92,13 +114,7 @@ export const defaultCategories = [
     type: "invested",
     color: "#be185d", // rose-700
     icon: "FileText",
-  },
-  {
-    id: "interBankTransfer",
-    name: "Inter Bank Transfer",
-    type: "invested",
-    color: "#0ea5e9", // sky-500
-    icon: "ArrowRightLeft",
+    analytics: true,
   },
   {
     id: "otherInvestment",
@@ -106,6 +122,7 @@ export const defaultCategories = [
     type: "invested",
     color: "#334155", // slate-700
     icon: "TrendingUp",
+    analytics: true,
   },
 
   // Expense Categories
@@ -115,8 +132,9 @@ export const defaultCategories = [
     type: "expense",
     color: "#7c3aed", // violet-600
     icon: "Popcorn",
-    description: "Non-essential fun activities",
-    subcategories: ["Movie tickets", "Gaming purchases", "OTT subscriptions", "Concerts / events", "Theme parks", "Clubs / parties", "Hobby expenses"],
+    analytics: true,
+    // description: "Non-essential fun activities",
+    // subcategories: ["Movie tickets", "Gaming purchases", "OTT subscriptions", "Concerts / events", "Theme parks", "Clubs / parties", "Hobby expenses"],
   },
   {
     id: "eatingOut",
@@ -124,8 +142,9 @@ export const defaultCategories = [
     type: "expense",
     color: "#f43f5e", // rose-500
     icon: "Utensils",
-    description: "Food consumed outside home",
-    subcategories: ["Restaurants", "Cafes", "Swiggy / Zomato orders", "Street food", "Office canteen", "Date nights"],
+    analytics: true,
+    // description: "Food consumed outside home",
+    // subcategories: ["Restaurants", "Cafes", "Swiggy / Zomato orders", "Street food", "Office canteen", "Date nights"],
   },
   {
     id: "groceries",
@@ -133,8 +152,9 @@ export const defaultCategories = [
     type: "expense",
     color: "#65a30d", // lime-600
     icon: "ShoppingCart",
-    description: "Daily household food supplies",
-    subcategories: ["Vegetables, fruits", "Dairy products", "Rice, wheat, pulses", "Cooking oil, spices", "Packaged food", "Water cans"],
+    analytics: true,
+    // description: "Daily household food supplies",
+    // subcategories: ["Vegetables, fruits", "Dairy products", "Rice, wheat, pulses", "Cooking oil, spices", "Packaged food", "Water cans"],
   },
   {
     id: "housing",
@@ -142,8 +162,9 @@ export const defaultCategories = [
     type: "expense",
     color: "#dc2626", // red-600
     icon: "Home",
-    description: "Everything related to living space",
-    subcategories: ["Rent / Home EMI", "Appliances (AC, fridge, washing machine)", "Property tax", "Maintenance charges", "Repairs", "Furniture"],
+    analytics: true,
+    // description: "Everything related to living space",
+    // subcategories: ["Rent / Home EMI", "Appliances (AC, fridge, washing machine)", "Property tax", "Maintenance charges", "Repairs", "Furniture"],
   },
   {
     id: "insurance",
@@ -151,8 +172,9 @@ export const defaultCategories = [
     type: "expense",
     color: "#475569", // slate-600
     icon: "Shield",
-    description: "Risk protection payments",
-    subcategories: ["Life insurance", "Home insurance", "Vehicle insurance", "Health insurance", "Term insurance", "Travel insurance"],
+    analytics: true,
+    // description: "Risk protection payments",
+    // subcategories: ["Life insurance", "Home insurance", "Vehicle insurance", "Health insurance", "Term insurance", "Travel insurance"],
   },
   {
     id: "transportation",
@@ -160,8 +182,9 @@ export const defaultCategories = [
     type: "expense",
     color: "#ea580c", // orange-600
     icon: "Car",
-    description: "Cost of moving from place to place",
-    subcategories: ["Fuel", "Public Transport", "Vehicle servicing", "Parking charges", "Cab rides", "Metro pass", "Car EMI"],
+    analytics: true,
+    // description: "Cost of moving from place to place",
+    // subcategories: ["Fuel", "Public Transport", "Vehicle servicing", "Parking charges", "Cab rides", "Metro pass", "Car EMI"],
   },
   {
     id: "utilities",
@@ -169,8 +192,9 @@ export const defaultCategories = [
     type: "expense",
     color: "#0891b2", // cyan-600
     icon: "Plug",
-    description: "Recurring essential services",
-    subcategories: ["Electricity bill", "Water bill", "Gas cylinder", "Mobile recharge", "Daily Essentials"],
+    analytics: true,
+    // description: "Recurring essential services",
+    // subcategories: ["Electricity bill", "Water bill", "Gas cylinder", "Mobile recharge", "Daily Essentials"],
   },
   {
     id: "bodyCare&Medicine",
@@ -178,8 +202,9 @@ export const defaultCategories = [
     type: "expense",
     color: "#16a34a", // green-600
     icon: "HeartPulse",
-    description: "Personal health & hygiene",
-    subcategories: ["Medicines", "Doctor visits", "Medical tests", "Gym membership", "Salon expenses", "Skincare", "Toiletries"],
+    analytics: true,
+    // description: "Personal health & hygiene",
+    // subcategories: ["Medicines", "Doctor visits", "Medical tests", "Gym membership", "Salon expenses", "Skincare", "Toiletries"],
   },
   {
     id: "vacation",
@@ -187,8 +212,9 @@ export const defaultCategories = [
     type: "expense",
     color: "#0d9488", // teal-600
     icon: "Plane",
-    description: "Travel-related expenses",
-    subcategories: ["Flight tickets", "Train tickets", "Hotel bookings", "Local sightseeing", "Travel food"],
+    analytics: true,
+    // description: "Travel-related expenses",
+    // subcategories: ["Flight tickets", "Train tickets", "Hotel bookings", "Local sightseeing", "Travel food"],
   },
   {
     id: "clothing",
@@ -196,17 +222,19 @@ export const defaultCategories = [
     type: "expense",
     color: "#4f46e5", // indigo-600
     icon: "Shirt",
-    description: "Apparel & fashion",
-    subcategories: ["Casual wear", "Formal wear", "Shoes", "Accessories", "Tailoring", "Seasonal shopping"],
+    analytics: true,
+    // description: "Apparel & fashion",
+    // subcategories: ["Casual wear", "Formal wear", "Shoes", "Accessories", "Tailoring", "Seasonal shopping"],
   },
   {
     id: "familyExpenses",
     name: "Vyavaharik",
     type: "expense",
     color: "#c026d3", // fuchsia-600
-    icon: "Users",
-    description: "Expenses done by me, used by others",
-    subcategories: ["Parents' medical expenses", "Family gifts", "Household help salary", "Relatives support", "Festival expenses"],
+    icon: "Smile",
+    analytics: true,
+    // description: "Expenses done by me, used by others",
+    // subcategories: ["Parents' medical expenses", "Family gifts", "Household help salary", "Relatives support", "Festival expenses"],
   },
   {
     id: "education",
@@ -214,8 +242,25 @@ export const defaultCategories = [
     type: "expense",
     color: "#0ea5e9", // sky-500
     icon: "BookOpen",
-    description: "Expenses related to learning, academic growth, and skill development",
-    subcategories: ["School / College fees", "Online courses", "Coaching / Tuition classes", "Exam fees", "Books & study materials", "Certifications", "Workshops & seminars", "Educational software / subscriptions"],
+    analytics: true,
+    // description: "Expenses related to learning, academic growth, and skill development",
+    // subcategories: ["School / College fees", "Online courses", "Coaching / Tuition classes", "Exam fees", "Books & study materials", "Certifications", "Workshops & seminars", "Educational software / subscriptions"],
+  },
+  {
+    id: "splitOwed",
+    name: "Split Owed",
+    type: "expense",
+    color: "#db2777", // pink-600
+    icon: "UserRoundCheck",
+    analytics: false,
+  },
+  {
+    id: "interBankTransfer",
+    name: "Inter Bank Transfer",
+    type: "expense",
+    color: "#0ea5e9", // sky-500
+    icon: "ArrowRightLeft",
+    analytics: false,
   },
   {
     id: "otherExpense",
@@ -223,14 +268,8 @@ export const defaultCategories = [
     type: "expense",
     color: "#64748b", // slate-500
     icon: "MoreHorizontal",
+    analytics: true,
   },
-  // {
-  //   id: "travel",
-  //   name: "Travel",
-  //   type: "expense",
-  //   color: "#0ea5e9", // sky-500
-  //   icon: "Plane",
-  // },
   // {
   //   id: "gifts",
   //   name: "Gifts & Donations",
