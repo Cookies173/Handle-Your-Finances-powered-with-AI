@@ -18,7 +18,6 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import ReceiptScanner from "./ReceiptScanner.jsx";
 import { useSearchParams } from "react-router-dom";
-import { HoverCard, HoverCardContent, HoverCardTrigger } from "@/components/ui/hover-card"
 
 function AddTForm(){
 
@@ -292,21 +291,9 @@ function AddTForm(){
                             </SelectTrigger>
                             <SelectContent>
                                 {filteredCategories && filteredCategories.map((category) => (
-                                    <HoverCard key={category.id} openDelay={100} closeDelay={100}>
-                                        <HoverCardTrigger asChild>
-                                            <SelectItem key={category.id} value={category.id}>
-                                                {category.name}
-                                            </SelectItem>
-                                        </HoverCardTrigger>
-                                        <HoverCardContent side="right">
-                                            <div className="flex flex-col gap-1">
-                                                <h4>{category.description}</h4>
-                                                {category.subcategories?.map((sc) => (
-                                                    <div key={sc} className="text-muted-foreground text-sm">- {sc}</div>
-                                                ))}
-                                            </div>
-                                        </HoverCardContent>
-                                    </HoverCard>
+                                    <SelectItem key={category.id} value={category.id}>
+                                        {category.name}
+                                    </SelectItem>
                                 ))}
                             </SelectContent>
                         </Select>
