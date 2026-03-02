@@ -47,7 +47,7 @@ export const defaultCategories = [
     name: "Liquidate",
     type: "income",
     color: "#0ea5e9", // green-600
-    icon: "Money",
+    icon: "IndianRupee",
     analytics: true,
   },
   {

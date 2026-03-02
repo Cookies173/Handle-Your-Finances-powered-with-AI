@@ -18,6 +18,9 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import ReceiptScanner from "./ReceiptScanner.jsx";
 import { useSearchParams } from "react-router-dom";
+import { Briefcase, Coins, Landmark, Building, Smile, IndianRupee, Users, ArrowRightLeft, PlusCircle, 
+    ShieldCheck, Clock, BarChart3, PieChart, FileText, TrendingUp, Popcorn, Utensils, ShoppingCart, Home, 
+    Shield, Car, Plug, HeartPulse, Plane, Shirt, BookOpen, UserRoundCheck, MoreHorizontal } from "lucide-react";
 
 function AddTForm(){
 
@@ -28,6 +31,9 @@ function AddTForm(){
     const [createDrawerOpen, setCreateDrawerOpen] = useState(false);
     const [editMode, setEditMode] = useState(false);
     const [initialData, setInitialData] = useState(undefined);
+    const iconMap = {Briefcase, Coins, Landmark, Building, Smile, IndianRupee, Users, ArrowRightLeft, PlusCircle, 
+    ShieldCheck, Clock, BarChart3, PieChart, FileText, TrendingUp, Popcorn, Utensils, ShoppingCart, Home, 
+    Shield, Car, Plug, HeartPulse, Plane, Shirt, BookOpen, UserRoundCheck, MoreHorizontal};
 
     const [searchParams] = useSearchParams();
     const transactionId = searchParams.get("id");
@@ -292,7 +298,10 @@ function AddTForm(){
                             <SelectContent>
                                 {filteredCategories && filteredCategories.map((category) => (
                                     <SelectItem key={category.id} value={category.id}>
-                                        {category.name}
+                                        {(() => {
+                                            const IconComponent = iconMap[category.icon];
+                                            return IconComponent ? <IconComponent className="h-4 w-4" /> : null;
+                                        })()}{category.name}
                                     </SelectItem>
                                 ))}
                             </SelectContent>
