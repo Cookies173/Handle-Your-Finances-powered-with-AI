@@ -4,6 +4,7 @@ import axios from "axios";
 import { useAuth } from "@clerk/clerk-react";
 import AccountCard from "./AccountCard.jsx";
 import { BarLoader } from "react-spinners";
+import Splitter from "./Splitter.jsx";
 
 function AccountsGrid(){
 
@@ -41,6 +42,7 @@ function AccountsGrid(){
     return(
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3 pt-8">
             <CreateAccount open={open} setOpen={setOpen} triggerButton={true} onRefresh={getAccounts} />
+            <Splitter />
             {accounts!=undefined && accounts.map((account) => {
                 return <AccountCard key={account.id} account={account} onRefresh={getAccounts} />
             })}
