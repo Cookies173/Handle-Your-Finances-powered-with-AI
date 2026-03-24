@@ -7,7 +7,7 @@ import { useAuth } from "@clerk/clerk-react";
 
 function Splitter(){
 
-    const [splits, setSplits] = useState(undefined);
+    const [splits, setSplits] = useState({balance:0, transactioncount:0});
 
     useEffect(() => {
         getSplits();
